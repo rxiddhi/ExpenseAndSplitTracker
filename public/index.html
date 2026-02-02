@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker & Splitter</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <h1>Expense Tracker</h1>
+                <ul id="nav-links">
+                    <!-- Links will be injected by JS -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div style="margin-top: 50px; text-align: center;">
+            <h1>Welcome to Expense Manager</h1>
+            <p>Track your personal expenses and split bills with friends easily.</p>
+            
+            <div style="margin-top: 30px;" id="action-buttons">
+                <!-- Buttons injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.getElementById('nav-links');
+            const actionButtons = document.getElementById('action-buttons');
+
+            if (api.isAuthenticated()) {
+                const user = api.getUser();
+                
+                navLinks.innerHTML = `
+                    <li><a href="expenses.html">My Expenses</a></li>
+                    <li><a href="groups.html">Groups & Split</a></li>
+                    <li><a href="#" onclick="api.logout()">Logout</a></li>
+                `;
+
+                actionButtons.innerHTML = `
+                    <a href="expenses.html" class="btn">Go to My Expenses</a>
+                    <a href="groups.html" class="btn" style="margin-left: 10px; background-color: var(--accent-color)">Go to Groups</a>
+                `;
+            } else {
+                navLinks.innerHTML = `
+                    <li><a href="auth.html">Login</a></li>
+                    <li><a href="auth.html?mode=register">Register</a></li>
+                `;
+
+                actionButtons.innerHTML = `
+                    <a href="auth.html" class="btn">Login To Start</a>
+                    <a href="auth.html?mode=register" class="btn" style="margin-left: 10px; background-color: #333">Register</a>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

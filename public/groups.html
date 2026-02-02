@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Splitting - Expense Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .split-card {
+            background: #f9f9f9;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .owe {
+            color: var(--error-color);
+        }
+
+        .receive {
+            color: var(--success-color);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <h1><a href="index.html">Expense Tracker</a></h1>
+                <ul>
+                    <li><a href="expenses.html">My Expenses</a></li>
+                    <li><a href="groups.html" style="text-decoration: underline;">Groups & Split</a></li>
+                    <li><a href="#" onclick="api.logout()">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top: 30px;">
+        <div id="alert" class="alert"></div>
+
+        <div class="grid-3">
+            <div>
+                <!-- Balances Section -->
+                <div class="card">
+                    <h2>Outstanding Balances</h2>
+                    <div style="display: flex; gap: 20px; margin-top: 15px;">
+                        <div style="flex: 1; padding: 10px; border: 1px solid #000;">
+                            <h3>To Receive</h3>
+                            <ul id="receivables-list" style="list-style: none; margin-top: 10px;">Loading...</ul>
+                        </div>
+                        <div style="flex: 1; padding: 10px; border: 1px solid #000;">
+                            <h3>To Pay</h3>
+                            <ul id="debts-list" style="list-style: none; margin-top: 10px;">Loading...</ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group Details & Expenses -->
+                <div id="group-details-section" class="card" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 id="group-name-title">Group Name</h2>
+                        <button onclick="closeGroup()" class="btn btn-small" style="background: #777;">Back to
+                            List</button>
+                    </div>
+
+                    <!-- Add Member -->
+                    <div style="margin: 15px 0; padding: 10px; background: #eee; border-radius: 4px;">
+                        <h4>Members</h4>
+                        <ul id="member-list" style="margin: 5px 0 10px 20px;"></ul>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="email" id="new-member-email" placeholder="User email to add">
+                            <button id="add-member-btn" class="btn btn-small">Add</button>
+                        </div>
+                    </div>
+
+                    <!-- Add Group Expense -->
+                    <div style="margin: 15px 0; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        <h4>Add Shared Expense</h4>
+                        <form id="group-expense-form"
+                            style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                            <input type="text" id="g-desc" placeholder="Description" required style="flex: 2;">
+                            <input type="number" id="g-amount" placeholder="Amount" required style="flex: 1;"
+                                step="0.01">
+                            <button type="submit" class="btn btn-small">Split</button>
+                        </form>
+                    </div>
+
+                    <h3>Expense History</h3>
+                    <ul id="group-expenses-list" class="expense-list" style="margin-top: 10px;">
+                        <!-- Injected JS -->
+                    </ul>
+                </div>
+
+                <!-- Group List (Shown when no group selected) -->
+                <div id="groups-list-section" class="card">
+                    <h2>Your Groups</h2>
+                    <ul id="groups-list" class="expense-list" style="margin-top: 15px;">
+                        <!-- Groups injected JS -->
+                        <p>Loading groups...</p>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <div class="card">
+                    <h2>Create Group</h2>
+                    <form id="create-group-form" style="margin-top: 15px;">
+                        <div class="form-group">
+                            <label>Group Name</label>
+                            <input type="text" id="group-name" required>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%;">Create New Group</button>
+                    </form>
+                </div>
+
+                <div class="card" style="background: #eaf2f8;">
+                    <h4>How splitting works</h4>
+                    <p style="font-size: 0.9rem; margin-top: 5px;">
+                        Expenses added to a group are split equally among all members. The person who pays is owed money
+                        by others.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/groups.js"></script>
+</body>
+
+</html>
