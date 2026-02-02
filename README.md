@@ -1,115 +1,77 @@
-# Full-Stack Expense Tracker & Splitter
+# 💸 Expense Tracker & Splitter
 
-A comprehensive expense tracking and group splitting application built with Node.js, Express, TypeScript, and MongoDB.
+**Manage your money and split bills with friends—hassle-free.**
 
-## Features
+Welcome to the Expense Tracker! This is a robust, full-stack application designed to make personal finance and group settlements easy. Whether you're tracking your daily coffee runs or splitting a vacation bill with 10 friends, this app covers it all.
 
-### 💰 Personal Expense Tracker
-- **CRUD Operations**: Add, view, edit, and delete personal expenses.
-- **Filtering & Search**: Filter by category, date range, and search by title.
-- **Pagination**: Efficiently browse through large lists of expenses.
-- **Monthly Summary**: View total spending for each month.
-
-### 👥 Group Expense Splitter
-- **Group Management**: Create groups and manage members (add/remove).
-- **Expense Splitting**: Automatically splits expenses equally among group members.
-- **Balance Tracking**: View "Who owes me" and "Whom I owe" summaries.
-- **Settlement**: Mark debts as settled when paid.
-
-### 🔐 Authentication
-- **Secure Auth**: JWT-based authentication with password hashing (bcrypt).
-- **Protected Routes**: All API endpoints are secured.
+> **Note:** This project has been optimized for simplicity. It uses a **local JSON file system** for data storage, meaning you don't need to install or configure MongoDB to get started. Just standard Node.js and you're good to go!
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-- **Backend**: Node.js, Express.js
-- **Language**: TypeScript
-- **Database**: MongoDB with Mongoose
-- **Architecture**: OOP (Controller-Service-Repository pattern)
-- **Frontend**: Vanilla HTML/CSS/JS (served statically)
+### 💰 Master Your Personal Finances
+*   **Track Everything**: Easily log your daily expenses.
+*   **Find It Fast**: Search your history by title, valid dates, or categories.
+*   **Stay Organized**: See exactly how much you spent on "Food" vs "Transport" with monthly summaries.
+
+### 🤝 Group Splitting Made Simple
+*   **Create Groups**: Perfect for roommates, trips, or events.
+*   **Fair Splitting**: Add an expense, and we automatically divide it equally among members.
+*   **Debt Tracking**: No more "I forgot I owed you." See clear "Who owes me" and "Whom I owe" dashboards.
+*   **Settle Up**: Mark debts as paid with a single click.
+
+### 🔒 Secure & Private
+*   User-friendly sign-up and login.
+*   Password encryption to keep your account safe.
 
 ---
 
-## Setup Instructions
+## 🛠️ Tech Stack
+
+We built this with modern, reliable web technologies:
+
+*   **Backend**: Node.js & Express.js
+*   **Language**: TypeScript (for reliable, bug-free code)
+*   **Database**: Custom **FileStore** (Local JSON storage - *No external DB required!*)
+*   **Frontend**: Clean Vanilla HTML/CSS/JS
+
+---
+
+## 🚀 Getting Started
+
+You can have this running on your machine in less than 2 minutes.
 
 ### Prerequisites
-- Node.js (v14+)
-- MongoDB (running locally or a connection string)
+*   [Node.js](https://nodejs.org/) (v14 or higher)
 
 ### Installation
 
-1. **Clone the repository** (if applicable) or navigate to project folder.
+1.  **Clone the repo** (or download the files):
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+3.  **Start the server**:
+    ```bash
+    npm run dev
+    ```
+    *This will start the backend on port 5001 and serve the frontend files.*
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Configure Environment**:
-   - Rename `.env.example` to `.env`
-   - Update `MONGODB_URI` if needed (default: `mongodb://localhost:27017/expense-tracker`)
-   - keys are pre-filled for development convenience.
-
-4. **Build and Run**:
-   ```bash
-   # Development mode (auto-reload)
-   npm run dev
-   
-   # Production build
-   npm run build
-   npm start
-   ```
-
-5. **Access the Application**:
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+4.  **Open your browser**:
+    Go to `http://localhost:5001`
 
 ---
 
-## API Documentation
+## 📚 API Overview
 
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
+The backend provides a full REST API. Here are a few endpoints you might interact with:
 
-### Personal Expenses
-- `POST /api/expenses` - Create expense
-- `GET /api/expenses` - Get all expenses (supports `page`, `limit`, `category`, `startDate`, `endDate`, `search`)
-- `GET /api/expenses/:id` - Get specific expense
-- `GET /api/expenses/summary` - Get monthly totals
-- `PUT /api/expenses/:id` - Update expense
-- `DELETE /api/expenses/:id` - Delete expense
-
-### Groups
-- `POST /api/groups` - Create group
-- `GET /api/groups` - List user's groups
-- `GET /api/groups/:id` - Get group details
-- `POST /api/groups/:id/members` - Add member (by email)
-- `DELETE /api/groups/:id/members/:userId` - Remove member
-- `DELETE /api/groups/:id` - Delete group
-
-### Group Expenses & Splitting
-- `POST /api/group-expenses` - Add shared expense (auto-splits)
-- `GET /api/group-expenses/group/:groupId` - Call expenses for a group
-- `GET /api/group-expenses/balances/who-owes-me` - Get receivables
-- `GET /api/group-expenses/balances/whom-i-owe` - Get debts
-- `PATCH /api/group-expenses/settle/:splitId` - Mark debt as settled
+*   **Auth**: `/api/auth/register`, `/api/auth/login`
+*   **Expenses**: POST/GET `/api/expenses`
+*   **Groups**: Create groups, add members, and manage bills at `/api/groups`.
+*   **Settlements**: Check your balances at `/api/group-expenses/balances/`.
 
 ---
 
-## Folder Structure
-
-```
-src/
- ├── controllers/    # Request handlers
- ├── services/       # Business logic
- ├── repositories/   # Database access
- ├── models/         # Mongoose models
- ├── routes/         # API routes
- ├── middlewares/    # Auth & Error handling
- ├── utils/          # Helpers (DB, Errors)
- ├── app.ts          # Express app setup
- └── server.ts       # Entry point
-public/              # Static frontend files
-```
+*Happy Tracking!* 📈
