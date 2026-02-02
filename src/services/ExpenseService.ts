@@ -77,7 +77,7 @@ export class ExpenseService {
     async getMonthlySummary(userId: string, year: number) {
         const summary = await this.expenseRepository.getMonthlySummary(userId, year);
 
-        // Format the result to return full 12 months data
+        
         const formattedSummary = Array.from({ length: 12 }, (_, i) => {
             const monthData = summary.find(item => item._id === i + 1);
             return {

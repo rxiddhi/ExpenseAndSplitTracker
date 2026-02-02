@@ -15,7 +15,7 @@ export class GroupExpenseService {
     }
 
     async createGroupExpense(userId: string, groupId: string, amount: number, description: string) {
-        // 1. Verify group membership
+        
         const isMember = await this.groupRepository.isMember(groupId, userId);
         if (!isMember) {
             throw new AppError('Not authorized to add expense to this group', 403);
@@ -24,7 +24,7 @@ export class GroupExpenseService {
         const group = await this.groupRepository.findById(groupId);
         if (!group) throw new AppError('Group not found', 404);
 
-        // 2. Create Group Expense
+        
         const expense = await this.groupExpenseRepository.create({
             groupId: groupId,
             paidBy: userId,
@@ -33,19 +33,19 @@ export class GroupExpenseService {
             date: new Date()
         });
 
-        // 3. Calculate Splits
-        // Equal split logic: Total / Number of members
-        const memberCount = group.members.length; // members is mixed strings/objects depending on findById implementation.
-        // Wait, GroupRepository.findById populates members. So they are objects.
-        // I need to be careful.
-        // group.members is "any".
+        
+        
+        const memberCount = group.members.length; 
+        
+        
+        
 
         if (memberCount === 0) return expense;
 
         const shareAmount = parseFloat((amount / memberCount).toFixed(2));
 
         const splits = group.members.map((member: any) => {
-            const memberId = member._id || member; // Handle both populated and unpopulated
+            const memberId = member._id || member; 
             return {
                 groupExpenseId: expense._id,
                 userId: memberId.toString(),
@@ -80,7 +80,7 @@ export class GroupExpenseService {
         return debts
             .filter(split => {
                 const expense = split.groupExpenseId as any;
-                // expense.paidBy is populated object
+                
                 return expense.paidBy._id.toString() !== userId;
             })
             .map(split => {

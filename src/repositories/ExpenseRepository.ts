@@ -23,7 +23,7 @@ export class ExpenseRepository {
     }
 
     async create(expenseData: Partial<IExpense>): Promise<IExpense> {
-        // Safe cast as we assume partial has necessary fields or controller validates it
+        
         return this.fileStore.create<IExpense>('expenses', expenseData as any);
     }
 
@@ -39,7 +39,7 @@ export class ExpenseRepository {
         const allExpenses = await this.fileStore.filter<IExpense>('expenses', (expense) => {
             if (expense.userId !== userId.toString()) return false;
 
-            // Apply filters
+            
             if (filters.category && expense.category !== filters.category) return false;
 
             const expenseDate = new Date(expense.date);
@@ -56,7 +56,7 @@ export class ExpenseRepository {
 
         const total = allExpenses.length;
 
-        // Sort
+        
         const sortBy = pagination.sortBy || 'date';
         const sortOrder = pagination.sortOrder === 'asc' ? 1 : -1;
 
@@ -69,7 +69,7 @@ export class ExpenseRepository {
             return 0;
         });
 
-        // Paginate
+        
         const startIndex = (pagination.page - 1) * pagination.limit;
         const endIndex = startIndex + pagination.limit;
         const expenses = allExpenses.slice(startIndex, endIndex);
@@ -105,7 +105,7 @@ export class ExpenseRepository {
 
         expenses.forEach(expense => {
             const date = new Date(expense.date);
-            const month = date.getMonth() + 1; // 1-12 match Mongo $month
+            const month = date.getMonth() + 1; 
 
             const current = summaryMap.get(month) || { totalAmount: 0, count: 0 };
             current.totalAmount += expense.amount;
@@ -113,7 +113,7 @@ export class ExpenseRepository {
             summaryMap.set(month, current);
         });
 
-        // Convert map to array and sort
+        
         const result = Array.from(summaryMap.entries()).map(([month, data]) => ({
             _id: month,
             totalAmount: data.totalAmount,

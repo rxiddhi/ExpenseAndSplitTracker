@@ -21,12 +21,12 @@ export class GroupRepository {
         const group = await this.fileStore.findById<IGroup>('groups', id);
         if (!group) return null;
 
-        // Populate members
+        
         const members: any[] = [];
         for (const memberId of group.members) {
             const member = await this.fileStore.findById<IUser>('users', memberId);
             if (member) {
-                // Return minimal fields
+                
                 members.push({ _id: member._id, name: member.name, email: member.email });
             }
         }
@@ -38,7 +38,7 @@ export class GroupRepository {
         const groups = await this.fileStore.filter<IGroup>('groups', (group) =>
             group.members.includes(userId)
         );
-        // Sort by createdAt desc
+        
         return groups.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
 
@@ -47,8 +47,8 @@ export class GroupRepository {
         if (!group) return null;
 
         if (!group.members.includes(userId)) {
-            // Need to update the members array
-            // Since FileStore.update merges top-level keys, we need to pass the new array
+            
+            
             const newMembers = [...group.members, userId];
             await this.fileStore.update('groups', groupId, { members: newMembers });
         }

@@ -13,7 +13,7 @@ export class AuthController {
     register = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
         const { email, password, name } = req.body;
 
-        // Validation
+        
         if (!email || !password || !name) {
             throw new AppError('Please provide email, password, and name', 400);
         }
@@ -30,7 +30,7 @@ export class AuthController {
     login = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
         const { email, password } = req.body;
 
-        // Validation
+        
         if (!email || !password) {
             throw new AppError('Please provide email and password', 400);
         }

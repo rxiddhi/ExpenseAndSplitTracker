@@ -15,7 +15,7 @@ export const errorHandler = (
         });
     }
 
-    // Handle Mongoose validation errors
+    
     if (err.name === 'ValidationError') {
         return res.status(400).json({
             success: false,
@@ -24,7 +24,7 @@ export const errorHandler = (
         });
     }
 
-    // Handle Mongoose duplicate key errors
+    
     if (err.name === 'MongoServerError' && (err as any).code === 11000) {
         return res.status(400).json({
             success: false,
@@ -32,7 +32,7 @@ export const errorHandler = (
         });
     }
 
-    // Handle JWT errors
+    
     if (err.name === 'JsonWebTokenError') {
         return res.status(401).json({
             success: false,
@@ -47,7 +47,7 @@ export const errorHandler = (
         });
     }
 
-    // Default error
+    
     console.error('Error:', err);
     res.status(500).json({
         success: false,

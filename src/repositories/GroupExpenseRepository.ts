@@ -18,10 +18,10 @@ export class GroupExpenseRepository {
             (exp) => exp.groupId === groupId
         );
 
-        // Sort desc
+        
         expenses.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-        // Populate paidBy
+        
         const populated = [];
         for (const exp of expenses) {
             const user = await this.fileStore.findById<IUser>('users', exp.paidBy);

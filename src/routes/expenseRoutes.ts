@@ -5,7 +5,7 @@ import { authMiddleware } from '../middlewares/authMiddleware';
 const router = Router();
 const expenseController = new ExpenseController();
 
-// Protect all routes
+
 router.use(authMiddleware);
 
 router.post('/', expenseController.createExpense);

@@ -24,7 +24,7 @@ export class SplitRepository {
             s => s.userId === userId && !s.isSettled
         );
 
-        // Populate groupExpense -> paidBy
+        
         const populated = [];
         for (const split of splits) {
             const expense = await this.fileStore.findById<IGroupExpense>('groupExpenses', split.groupExpenseId);
@@ -48,20 +48,20 @@ export class SplitRepository {
     }
 
     async findUnsettledReceivables(userId: string): Promise<any[]> {
-        // 1. Find all expenses paid by me
+        
         const myExpenses = await this.fileStore.filter<IGroupExpense>('groupExpenses',
             exp => exp.paidBy === userId
         );
         const myExpenseIds = myExpenses.map(e => e._id);
 
-        // 2. Find all unsettled splits for these expenses where debtor != me
+        
         const splits = await this.fileStore.filter<ISplit>('splits',
             s => myExpenseIds.includes(s.groupExpenseId) &&
                 !s.isSettled &&
                 s.userId !== userId
         );
 
-        // 3. Populate expense and debtor
+        
         const populated = [];
         for (const split of splits) {
             const expense = myExpenses.find(e => e._id === split.groupExpenseId);
@@ -69,7 +69,7 @@ export class SplitRepository {
 
             populated.push({
                 ...split,
-                expense: expense, // already fully loaded object (simplification)
+                expense: expense, 
                 debtor: debtor ? { _id: debtor._id, name: debtor.name, email: debtor.email } : null
             });
         }

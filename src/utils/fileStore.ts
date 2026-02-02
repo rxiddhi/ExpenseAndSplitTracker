@@ -1,9 +1,8 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-// Generic interface for items stored in the file
 export interface BaseItem {
-    _id: string; // Mimic MongoDB _id
+    _id: string;
     createdAt: Date;
     updatedAt: Date;
     [key: string]: any;
@@ -30,14 +29,12 @@ export class FileStore {
         try {
             const data = await fs.readFile(this.dbPath, 'utf-8');
             this.data = JSON.parse(data, (key, value) => {
-                // Revive dates
                 if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*/.test(value)) {
                     return new Date(value);
                 }
                 return value;
             });
         } catch (error) {
-            // If file doesn't exist, start with empty data
             this.data = {};
             await this.saveData();
         }
@@ -116,13 +113,11 @@ export class FileStore {
         await this.saveData();
         return true;
     }
-    
-    // Helper to simulate basic query matching
+
     public matchesQuery(item: any, query: any): boolean {
         for (const key in query) {
             const value = query[key];
-             if (value && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
-                // Handle operators like $gte, $lte, $regex
+            if (value && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
                 if (value.$gte && !(new Date(item[key]) >= new Date(value.$gte))) return false;
                 if (value.$lte && !(new Date(item[key]) <= new Date(value.$lte))) return false;
                 if (value.$regex && !new RegExp(value.$regex, value.$options).test(item[key])) return false;

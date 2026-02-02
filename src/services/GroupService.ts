@@ -35,19 +35,19 @@ export class GroupService {
     }
 
     async addMember(userId: string, groupId: string, emailToAdd: string) {
-        // Check if requester is creator
+        
         const isCreator = await this.groupRepository.isCreator(groupId, userId);
         if (!isCreator) {
             throw new AppError('Only group creator can add members', 403);
         }
 
-        // Find user to add
+        
         const userToAdd = await this.authRepository.findUserByEmail(emailToAdd);
         if (!userToAdd) {
             throw new AppError('User with this email not found', 404);
         }
 
-        // Check if already a member
+        
         const isMember = await this.groupRepository.isMember(groupId, userToAdd._id.toString());
         if (isMember) {
             throw new AppError('User is already a member of this group', 400);
@@ -57,15 +57,15 @@ export class GroupService {
     }
 
     async removeMember(userId: string, groupId: string, userIdToRemove: string) {
-        // Check if requester is creator
+        
         const isCreator = await this.groupRepository.isCreator(groupId, userId);
 
-        // Allow users to leave group themselves, or creator to remove others
+        
         if (!isCreator && userId !== userIdToRemove) {
             throw new AppError('Not authorized to remove this member', 403);
         }
 
-        // Cannot remove creator
+        
         const isTargetCreator = await this.groupRepository.isCreator(groupId, userIdToRemove);
         if (isTargetCreator) {
             throw new AppError('Cannot remove group creator', 400);

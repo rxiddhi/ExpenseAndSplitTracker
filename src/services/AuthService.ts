@@ -11,20 +11,20 @@ export class AuthService {
     }
 
     async register(email: string, password: string, name: string) {
-        // Check if user already exists
+        
         const existingUser = await this.authRepository.emailExists(email);
         if (existingUser) {
             throw new AppError('Email already registered', 400);
         }
 
-        // Hash password manually since we removed Mongoose hooks
+        
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user
+        
         const user = await this.authRepository.createUser(email, hashedPassword, name);
 
-        // Generate token
+        
         const token = this.generateToken(user._id.toString());
 
         return {
@@ -38,19 +38,19 @@ export class AuthService {
     }
 
     async login(email: string, password: string) {
-        // Find user
+        
         const user = await this.authRepository.findUserByEmail(email);
         if (!user || !user.password) {
             throw new AppError('Invalid credentials', 401);
         }
 
-        // Check password
+        
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             throw new AppError('Invalid credentials', 401);
         }
 
-        // Generate token
+        
         const token = this.generateToken(user._id.toString());
 
         return {
